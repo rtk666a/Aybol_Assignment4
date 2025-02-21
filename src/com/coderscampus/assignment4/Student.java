@@ -1,10 +1,10 @@
 package com.coderscampus.assignment4;
 
-public class Student {
+public class Student implements Comparable<Student>{
     private String studentID;
     private String studentName;
     private String Course;
-    private int Grade;
+    private int grade;
 
     public Student() {
 
@@ -14,7 +14,7 @@ public class Student {
         this.studentID = studentID;
         this.studentName = studentName;
         Course = course;
-        Grade = grade;
+        this.grade = grade;
     }
 
     public String getStudentID() {
@@ -42,11 +42,11 @@ public class Student {
     }
 
     public int getGrade() {
-        return Grade;
+        return grade;
     }
 
     public void setGrade(int grade) {
-        Grade = grade;
+        this.grade = grade;
     }
 
     @Override
@@ -55,7 +55,13 @@ public class Student {
                 "studentID='" + studentID + '\'' +
                 ", studentName='" + studentName + '\'' +
                 ", Course='" + Course + '\'' +
-                ", Grade=" + Grade +
+                ", Grade=" + grade +
                 '}';
     }
+
+    @Override
+    public int compareTo(Student that) {
+        return Integer.compare(that.grade, this.grade);
+    }
+
 }
