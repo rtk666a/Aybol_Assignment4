@@ -23,7 +23,7 @@ public class FileService {
                 }
             }
         } catch (IOException e) {
-            System.out.println("here some IO Exception ");
+            System.out.println("here some IO Exception " + e.getMessage());
         }
         return allStudents;
     }
@@ -34,7 +34,7 @@ public class FileService {
                 studentWriter.write(student.toString());
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("here we have some IOExceptions "+e.getMessage());
         }
     }
 }
