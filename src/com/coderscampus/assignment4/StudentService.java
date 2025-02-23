@@ -12,6 +12,7 @@ public class StudentService {
     public void studentManager() {
         FileService fileService = new FileService();
         ArrayList<Student> allStudents = fileService.loadStudentsFromFile();
+        Collections.sort(allStudents);
         for (Student student : allStudents) {
             if (student.getCourse().contains("COMPSCI")) {
                 COMPLICITStudents.add(student);
@@ -25,11 +26,9 @@ public class StudentService {
                 STATStudents.add(student);
             }
         }
-        Collections.sort(COMPLICITStudents);
+
         fileService.writeStudentsInToFile(COMPLICITStudents, 1);
-        Collections.sort(APMTHStudents);
         fileService.writeStudentsInToFile(APMTHStudents, 2);
-        Collections.sort(STATStudents);
         fileService.writeStudentsInToFile(STATStudents, 3);
     }
 }
