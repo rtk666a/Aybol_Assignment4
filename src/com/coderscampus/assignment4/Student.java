@@ -1,9 +1,9 @@
 package com.coderscampus.assignment4;
 
-public class Student implements Comparable<Student>{
+public class Student implements Comparable<Student> {
     private String studentID;
     private String studentName;
-    private String Course;
+    private String course;
     private int grade;
 
     public Student() {
@@ -13,7 +13,7 @@ public class Student implements Comparable<Student>{
     public Student(String studentID, String studentName, String course, int grade) {
         this.studentID = studentID;
         this.studentName = studentName;
-        Course = course;
+        this.course = course;
         this.grade = grade;
     }
 
@@ -34,11 +34,11 @@ public class Student implements Comparable<Student>{
     }
 
     public String getCourse() {
-        return Course;
+        return course;
     }
 
     public void setCourse(String course) {
-        Course = course;
+        this.course = course;
     }
 
     public int getGrade() {
@@ -51,12 +51,7 @@ public class Student implements Comparable<Student>{
 
     @Override
     public String toString() {
-        return "Student{" +
-                "studentID='" + studentID + '\'' +
-                ", studentName='" + studentName + '\'' +
-                ", Course='" + Course + '\'' +
-                ", Grade=" + grade +
-                '}';
+        return studentID + "," + studentName + "," + course + "," + grade + "\n";
     }
 
     @Override

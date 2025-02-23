@@ -8,11 +8,11 @@ import java.util.Scanner;
 public class FileService {
     public ArrayList<Student> loadStudentsFromFile() {
         ArrayList<Student> allStudents = new ArrayList<>();
-        try (FileInputStream fileInputStream = new FileInputStream("student-master-list.csv") ; Scanner scanner = new Scanner(fileInputStream)){
+        try (FileInputStream fileInputStream = new FileInputStream("student-master-list.csv"); Scanner scanner = new Scanner(fileInputStream)) {
             while (scanner.hasNextLine()) {
-                String[] studentInformation= scanner.nextLine().split(",");
+                String[] studentInformation = scanner.nextLine().split(",");
 
-                if (studentInformation.length < 4){
+                if (studentInformation.length < 4) {
                     System.out.println("this is not valid student Information :" + String.join(",", studentInformation));
                 }
 
@@ -27,14 +27,14 @@ public class FileService {
         }
         return allStudents;
     }
-
-    public void writeStudentsInToFile(){
-        try{
-            BufferedWriter COMPSCIStudentWriter = new BufferedWriter(new FileWriter("COMPSCI.csv"));
-            BufferedWriter APMTHStudentWriter = new BufferedWriter(new FileWriter("APMTHS.csv"))
+    public void writeStudentsInToFile(ArrayList<Student> students, int fileCase) {
+        try (BufferedWriter studentWriter = new BufferedWriter(new FileWriter("course" + String.valueOf(fileCase) + ".csv"))) {
+            studentWriter.write("Student ID,Student Name,Course,Grade\n");
+            for (Student student : students) {
+                studentWriter.write(student.toString());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    
 }
