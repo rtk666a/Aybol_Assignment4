@@ -30,5 +30,6 @@ public class StudentService {
         fileService.writeStudentsInToFile(COMPLICITStudents, 1);
         fileService.writeStudentsInToFile(APMTHStudents, 2);
         fileService.writeStudentsInToFile(STATStudents, 3);
+
     }
 }
