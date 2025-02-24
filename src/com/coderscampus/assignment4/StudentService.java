@@ -1,35 +1,53 @@
 package com.coderscampus.assignment4;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class StudentService {
-    ArrayList<Student> COMPLICITStudents = new ArrayList<>();
-    ArrayList<Student> APMTHStudents = new ArrayList<>();
-    ArrayList<Student> STATStudents = new ArrayList<>();
+    Student[] COMPSCIStudents = new Student[34];
+    Student[] APMTHStudents = new Student[33];
+    Student[] STATStudents = new Student[33];
 
-    public void studentManager() {
+    public void manageStudents() {
         FileService fileService = new FileService();
-        ArrayList<Student> allStudents = fileService.loadStudentsFromFile();
-        Collections.sort(allStudents);
-        for (Student student : allStudents) {
-            if (student.getCourse().contains("COMPSCI")) {
-                COMPLICITStudents.add(student);
-            }
+        Student[] allStudents = new Student[100];
+        String[] fileStrings = fileService.loadStudentsFromFile();
+        int COMPSCISIndex = 0;
+        int APMTHIndex = 0;
+        int STATtIndex = 0;
+        int studentIndex = 0;
 
-            if (student.getCourse().contains("APMTH")) {
-                APMTHStudents.add(student);
+        for (String line : fileStrings) {
+            String[] studentInformation = line.split(",");
+            if (studentInformation.length < 4) {
+                System.out.println("this is not valid student Information :" + String.join(",", studentInformation));
             }
-
-            if (student.getCourse().contains("STAT")) {
-                STATStudents.add(student);
+            try {
+                allStudents[studentIndex++] = new Student(studentInformation[0], studentInformation[1], studentInformation[2], Integer.parseInt(studentInformation[3]));
+            } catch (Exception e) {
+                studentIndex--;
+                System.out.println("Invalid data format:" + e.getMessage());
             }
         }
 
-        fileService.writeStudentsInToFile(COMPLICITStudents, 1);
-        fileService.writeStudentsInToFile(APMTHStudents, 2);
-        fileService.writeStudentsInToFile(STATStudents, 3);
+        Arrays.sort(allStudents);
 
+        for (Student student : allStudents) {
+
+            if (student.getCourse().contains("COMPSCI")) {
+                COMPSCIStudents[COMPSCISIndex++] = student;
+            }
+
+            if (student.getCourse().contains("APMTH")) {
+                APMTHStudents[APMTHIndex++] = student;
+            }
+
+            if (student.getCourse().contains("STAT")) {
+                STATStudents[STATtIndex++] = student;
+            }
+        }
+
+        fileService.saveStudentsToFile(COMPSCIStudents, 1);
+        fileService.saveStudentsToFile(APMTHStudents, 2);
+        fileService.saveStudentsToFile(STATStudents, 3);
     }
 }

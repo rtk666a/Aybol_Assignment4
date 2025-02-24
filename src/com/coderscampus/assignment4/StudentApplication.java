@@ -5,6 +5,6 @@ import java.io.*;
 public class StudentApplication {
     public static void main(String[] args) throws IOException {
         StudentService studentService = new StudentService();
-        studentService.studentManager();
+        studentService.manageStudents();
     }
 }

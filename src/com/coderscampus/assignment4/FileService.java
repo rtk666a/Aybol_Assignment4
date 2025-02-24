@@ -1,40 +1,30 @@
 package com.coderscampus.assignment4;
 
-import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class FileService {
-    public ArrayList<Student> loadStudentsFromFile() {
-        ArrayList<Student> allStudents = new ArrayList<>();
-        try (FileInputStream fileInputStream = new FileInputStream("student-master-list.csv"); Scanner scanner = new Scanner(fileInputStream)) {
-            while (scanner.hasNextLine()) {
-                String[] studentInformation = scanner.nextLine().split(",");
-
-                if (studentInformation.length < 4) {
-                    System.out.println("this is not valid student Information :" + String.join(",", studentInformation));
-                }
-
-                try {
-                    allStudents.add(new Student(studentInformation[0], studentInformation[1], studentInformation[2], Integer.parseInt(studentInformation[3])));
-                } catch (Exception e) {
-                    System.out.println("Invalid data format:" + e.getMessage());
-                }
+    public String[] loadStudentsFromFile() {
+        String[] fileInformation = new String[101];
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("student-master-list.csv"))) {
+            String line = null;
+            int index = 0;
+            while ((line = bufferedReader.readLine()) != null) {
+                fileInformation[index++] = line;
             }
         } catch (IOException e) {
             System.out.println("here some IO Exception " + e.getMessage());
         }
-        return allStudents;
+        return fileInformation;
     }
-    public void writeStudentsInToFile(ArrayList<Student> students, int fileCase) {
+
+    public void saveStudentsToFile(Student[] students, int fileCase) {
         try (BufferedWriter studentWriter = new BufferedWriter(new FileWriter("course" + String.valueOf(fileCase) + ".csv"))) {
             studentWriter.write("Student ID,Student Name,Course,Grade\n");
             for (Student student : students) {
                 studentWriter.write(student.toString());
             }
         } catch (IOException e) {
-            System.out.println("here we have some IOExceptions "+e.getMessage());
+            System.out.println("here we have some IOExceptions " + e.getMessage());
         }
     }
 }
