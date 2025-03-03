@@ -1,6 +1,6 @@
 package com.coderscampus.assignment4;
 
-public class Student implements Comparable<Student> {
+public class Student {
     private String studentID;
     private String studentName;
     private String course;
@@ -53,10 +53,4 @@ public class Student implements Comparable<Student> {
     public String toString() {
         return studentID + "," + studentName + "," + course + "," + grade + "\n";
     }
-
-    @Override
-    public int compareTo(Student that) {
-        return Integer.compare(that.grade, this.grade);
-    }
-
 }

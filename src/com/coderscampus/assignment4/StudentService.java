@@ -1,19 +1,17 @@
 package com.coderscampus.assignment4;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class StudentService {
-    Student[] COMPSCIStudents = new Student[34];
-    Student[] APMTHStudents = new Student[33];
-    Student[] STATStudents = new Student[33];
+    private final FileService fileService = new FileService();
+    public Student[] allStudents;
 
-    public void manageStudents() {
-        FileService fileService = new FileService();
-        Student[] allStudents = new Student[100];
-        String[] fileStrings = fileService.loadStudentsFromFile();
-        int COMPSCISIndex = 0;
-        int APMTHIndex = 0;
-        int STATtIndex = 0;
+    public void load() {
+        String[] fileStrings = fileService.read();
+        int stringLength = fileStrings.length;
+        allStudents = new Student[stringLength];
+
         int studentIndex = 0;
 
         for (String line : fileStrings) {
@@ -28,26 +26,32 @@ public class StudentService {
                 System.out.println("Invalid data format:" + e.getMessage());
             }
         }
+    }
 
-        Arrays.sort(allStudents);
+    public void sortStudentByGrade() {
+        Comparator<Student> studentComparator = Comparator.comparing(Student::getGrade, Comparator.nullsLast(Comparator.reverseOrder()));
+        Arrays.sort(allStudents, studentComparator);
+    }
 
+    public Student[] separateByCourse(String course) {
+        int studentCounter = 0;
         for (Student student : allStudents) {
-
-            if (student.getCourse().contains("COMPSCI")) {
-                COMPSCIStudents[COMPSCISIndex++] = student;
-            }
-
-            if (student.getCourse().contains("APMTH")) {
-                APMTHStudents[APMTHIndex++] = student;
-            }
-
-            if (student.getCourse().contains("STAT")) {
-                STATStudents[STATtIndex++] = student;
+            if (student.getCourse().startsWith(course)) {
+                studentCounter++;
             }
         }
 
-        fileService.saveStudentsToFile(COMPSCIStudents, 1);
-        fileService.saveStudentsToFile(APMTHStudents, 2);
-        fileService.saveStudentsToFile(STATStudents, 3);
+        Student[] studentByCourse = new Student[studentCounter];
+        int index = 0;
+        for (Student student : allStudents) {
+            if (student.getCourse().contains(course)) {
+                studentByCourse[index++] = student;
+            }
+        }
+        return studentByCourse;
+    }
+
+    public void writeToCsv(Student[] studentsByCourse, int fileNumber) {
+        fileService.write(studentsByCourse, fileNumber);
     }
 }
